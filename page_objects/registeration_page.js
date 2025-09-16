@@ -21,6 +21,7 @@ export class registeration_page {
     }
 
     async verifyPageLoaded() {
+        await this.rightPanelTitle.waitFor()
         await expect(this.rightPanelTitle).toContainText('Signing up is easy!')
         await expect(this.page).toHaveTitle('ParaBank | Register for Free Online Account Access')
     }

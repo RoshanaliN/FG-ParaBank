@@ -9,6 +9,7 @@ export class account_overview_page {
     }
 
     async verifyPageLoaded() {
+        await this.overviewTitle.waitFor()
         await expect(this.overviewTitle).toHaveText('Accounts Overview')
     }
 

@@ -10,6 +10,7 @@ export class transfer_funds_page {
     }
 
     async verifyPageLoaded() {
+        await this.showFormTitle.waitFor()
         await expect(this.showFormTitle).toContainText('Transfer Funds')
     }
 

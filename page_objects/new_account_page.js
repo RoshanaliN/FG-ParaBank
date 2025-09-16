@@ -12,6 +12,7 @@ export class new_account_page {
     }
 
     async verifyPageLoaded() {
+        await this.openAcctFormTitle.waitFor()
         await expect(this.openAcctFormTitle).toHaveText('Open New Account')
     }
 

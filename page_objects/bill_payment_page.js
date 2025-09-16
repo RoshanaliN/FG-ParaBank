@@ -18,6 +18,7 @@ export class bill_payment_page {
     }
 
     async verifyPageLoaded() {
+        await this.billPayFormTitle.waitFor()
         await expect(this.billPayFormTitle).toHaveText('Bill Payment Service')
     }
 
