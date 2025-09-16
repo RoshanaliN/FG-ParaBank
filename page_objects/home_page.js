@@ -1,4 +1,4 @@
-const { expect } = require('@playwright/test');
+import { expect } from '@playwright/test';
 
 export class home_page {
     constructor(page) {

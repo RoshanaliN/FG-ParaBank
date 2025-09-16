@@ -1,9 +1,10 @@
-import { account_overview_page } from "./account_overview_page"
-import { bill_payment_page } from "./bill_payment_page"
-import { home_page } from "./home_page"
-import { new_account_page } from "./new_account_page"
-import { registeration_page } from "./registeration_page"
-import { transfer_funds_page } from "./transfer_funds_page"
+import { account_overview_page } from "./account_overview_page.js"
+import { bill_payment_page } from "./bill_payment_page.js"
+import { home_page } from "./home_page.js"
+import { new_account_page } from "./new_account_page.js"
+import { registeration_page } from "./registeration_page.js"
+import { transfer_funds_page } from "./transfer_funds_page.js"
+import { find_transaction_page } from "./find_transaction_page.js"
 
 export class PO_Manager {
     constructor(page) {
@@ -14,6 +15,7 @@ export class PO_Manager {
         this.accountOverviewPage = new account_overview_page(page)
         this.billPaymentPage = new bill_payment_page(page)
         this.transferFundsPage = new transfer_funds_page(page)
+        this.findTransactionPage = new find_transaction_page(page)
     }
 
     getHomePage() {
@@ -33,5 +35,8 @@ export class PO_Manager {
     }
     getTransferFundsPage() {
         return this.transferFundsPage
+    }
+    getFindTransactionPage() {
+        return this.findTransactionPage
     }
 }

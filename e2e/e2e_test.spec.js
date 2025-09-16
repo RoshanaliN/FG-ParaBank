@@ -23,7 +23,7 @@ test('E2E Para Bank', async ({ page }) => {
     await poManager.getHomePage().loginIntoAccount(username, password)
     await poManager.getAccountOverviewPage().verifyPageLoaded()
     const accountId0 = await poManager.getAccountOverviewPage().getAccountId(0)
-    await poManager.getAccountOverviewPage().verifyRowDetails(accountId0, '$515.50')
+    await poManager.getAccountOverviewPage().verifyRowDetails(accountId0, '$5000.00')
 
     // UI - Step 4
     await poManager.getHomePage().verifyGlobalNavigation()
@@ -38,7 +38,7 @@ test('E2E Para Bank', async ({ page }) => {
     // UI - Step 6
     await poManager.getHomePage().clickLeftPanelButton('overview')
     await poManager.getAccountOverviewPage().verifyPageLoaded()
-    await poManager.getAccountOverviewPage().verifyRowDetails(accountId0, '$415.50')
+    await poManager.getAccountOverviewPage().verifyRowDetails(accountId0, '$4900.00')
     await poManager.getAccountOverviewPage().verifyRowDetails(accountId1, '$100.00')
 
     // UI - Step 7
@@ -49,7 +49,7 @@ test('E2E Para Bank', async ({ page }) => {
 
     await poManager.getHomePage().clickLeftPanelButton('overview')
     await poManager.getAccountOverviewPage().verifyPageLoaded()
-    await poManager.getAccountOverviewPage().verifyRowDetails(accountId0, '$425.50')
+    await poManager.getAccountOverviewPage().verifyRowDetails(accountId0, '$4910.00')
     await poManager.getAccountOverviewPage().verifyRowDetails(accountId1, '$90.00')
 
     // UI - Step 8
@@ -60,11 +60,16 @@ test('E2E Para Bank', async ({ page }) => {
 
     await poManager.getHomePage().clickLeftPanelButton('overview')
     await poManager.getAccountOverviewPage().verifyPageLoaded()
-    await poManager.getAccountOverviewPage().verifyRowDetails(accountId0, '$425.50')
+    await poManager.getAccountOverviewPage().verifyRowDetails(accountId0, '$4910.00')
     await poManager.getAccountOverviewPage().verifyRowDetails(accountId1, '$75.00')
 
     // API - Step 1
-    let transactionSearchResponseJson = await apiTest.transactionSerachUsingAmount(accountId1, '15')
-
-    
+    await poManager.getHomePage().clickLeftPanelButton('findtrans')
+    await poManager.getFindTransactionPage().selectAccountAndEnterAmount(accountId1, '15')
+    const response = await poManager.getFindTransactionPage().getApiResponse()
+    // API - Step 2
+    expect(response[0].type).toBe('Debit')
+    expect(response[0].accountId).toBe(Number(accountId1))
+    expect(response[0].amount).toBe(15)
+    expect(response[0].description).toBe('Bill Payment to John')
 })
