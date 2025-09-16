@@ -18,8 +18,8 @@ export class account_overview_page {
     }
 
     async verifyRowDetails(accountId, amount) {
-        const rowLength = this.overviewRows.count()
-        for (let i = 0; i < rowLength; i++) {
+        const rowLength = await this.overviewRows.count()
+        for (let i = 1; i < rowLength; i++) {
             let rowAccountId = await this.overviewRows.nth(i).locator('a[href*=id]').textContent()
             if (rowAccountId === accountId) {
                 await expect(this.overviewRows.nth(i).locator('td').nth(1)).toHaveText(amount)
