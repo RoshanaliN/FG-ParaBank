@@ -1,15 +1,19 @@
+const { expect } = require('@playwright/test');
+
 export class account_overview_page {
     constructor(page) {
         this.page = page
         this.overviewRows = page.locator('#accountTable tr')
+        this.overviewTitle = page.locator('#showOverview .title')
+        this.accountId = page.locator('a[href*=id]')
     }
 
     async verifyPageLoaded() {
-        await expect(page.locator('#showOverview .title')).toHaveText('Accounts Overview')
+        await expect(this.overviewTitle).toHaveText('Accounts Overview')
     }
 
     async getAccountId(position) {
-        return await page.locator('a[href*=id]').nth(position).textContent()
+        return await this.accountId.nth(position).textContent()
     }
 
     async verifyRowDetails(accountId, amount) {
