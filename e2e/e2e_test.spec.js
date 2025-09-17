@@ -3,7 +3,8 @@ import { support_utils } from '../utils/support_utils'
 import { PO_Manager } from '../page_objects/PO_Manager'
 import { api_test } from '../api_test/api_test'
 
-test('E2E Para Bank', async ({ page }) => {
+test('E2E Para Bank', async ({ context }) => {
+    const page = await context.newPage()
     const username = 'Admin123' + new support_utils().generateRandomString(5)
     const password = 'Test@123'
     const poManager = new PO_Manager(page)
@@ -23,7 +24,7 @@ test('E2E Para Bank', async ({ page }) => {
     await poManager.getHomePage().loginIntoAccount(username, password)
     await poManager.getAccountOverviewPage().verifyPageLoaded()
     const accountId0 = await poManager.getAccountOverviewPage().getAccountId(0)
-    await poManager.getAccountOverviewPage().verifyRowDetails(accountId0, '$5000.00')
+    await poManager.getAccountOverviewPage().verifyRowDetails(accountId0, '$500.00')
 
     // UI - Step 4
     await poManager.getHomePage().verifyGlobalNavigation()
@@ -38,7 +39,7 @@ test('E2E Para Bank', async ({ page }) => {
     // UI - Step 6
     await poManager.getHomePage().clickLeftPanelButton('overview')
     await poManager.getAccountOverviewPage().verifyPageLoaded()
-    await poManager.getAccountOverviewPage().verifyRowDetails(accountId0, '$4900.00')
+    await poManager.getAccountOverviewPage().verifyRowDetails(accountId0, '$400.00')
     await poManager.getAccountOverviewPage().verifyRowDetails(accountId1, '$100.00')
 
     // UI - Step 7
@@ -49,7 +50,7 @@ test('E2E Para Bank', async ({ page }) => {
 
     await poManager.getHomePage().clickLeftPanelButton('overview')
     await poManager.getAccountOverviewPage().verifyPageLoaded()
-    await poManager.getAccountOverviewPage().verifyRowDetails(accountId0, '$4910.00')
+    await poManager.getAccountOverviewPage().verifyRowDetails(accountId0, '$410.00')
     await poManager.getAccountOverviewPage().verifyRowDetails(accountId1, '$90.00')
 
     // UI - Step 8
@@ -60,7 +61,7 @@ test('E2E Para Bank', async ({ page }) => {
 
     await poManager.getHomePage().clickLeftPanelButton('overview')
     await poManager.getAccountOverviewPage().verifyPageLoaded()
-    await poManager.getAccountOverviewPage().verifyRowDetails(accountId0, '$4910.00')
+    await poManager.getAccountOverviewPage().verifyRowDetails(accountId0, '$410.00')
     await poManager.getAccountOverviewPage().verifyRowDetails(accountId1, '$75.00')
 
     // API - Step 1
@@ -72,4 +73,14 @@ test('E2E Para Bank', async ({ page }) => {
     expect(response[0].accountId).toBe(Number(accountId1))
     expect(response[0].amount).toBe(15)
     expect(response[0].description).toBe('Bill Payment to John')
+
+    // API - Step 1
+    const cookies = await context.cookies();
+    const jsessionCookie = cookies.find(cookie => cookie.name === 'JSESSIONID');
+    const apiResponse = await apiTest.transactionSerachUsingAmount(accountId1, '15', jsessionCookie.value)
+    // API - Step 2
+    expect(apiResponse[0].type).toBe('Debit')
+    expect(apiResponse[0].accountId).toBe(Number(accountId1))
+    expect(apiResponse[0].amount).toBe(15)
+    expect(apiResponse[0].description).toBe('Bill Payment to John')
 })

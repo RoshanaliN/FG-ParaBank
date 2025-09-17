@@ -4,10 +4,18 @@ export class api_test {
         this.apiContext;
     }
 
-    async transactionSerachUsingAmount(accountId, amount) {
+    async transactionSerachUsingAmount(accountId, amount, jsessionCookie) {
         this.apiContext = await request.newContext()
-        const transactionSearchResponse = await this.apiContext.get("https://parabank.parasoft.com/parabank/services_proxy/bank/accounts/" + accountId
-            + "/transactions/amount/" + amount + "?timeout=30000")
+        const payload = "https://parabank.parasoft.com/parabank/services_proxy/bank/accounts/" + accountId
+            + "/transactions/amount/" + amount + "?timeout=30000"
+        const transactionSearchResponse = await this.apiContext.get(
+            payload,
+            {
+                headers: {
+                    'Cookie': "JSESSIONID=" + jsessionCookie
+                }
+            }
+        );
         expect(transactionSearchResponse.ok()).toBeTruthy();
         return transactionSearchResponse.json();
     }

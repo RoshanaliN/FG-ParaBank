@@ -11,10 +11,10 @@ Then user verify login successful
 Then user verify global navigation button
 When user create new "SAVINGS" bank account
 Then user get the new accountId
-Then user verify account overview details having "$4900.00" and "$100.00"
+Then user verify account overview details having "$400.00" and "$100.00"
 When user transfer "10" between accounts
-Then user verify account overview details having "$4910.00" and "$90.00"
+Then user verify account overview details having "$410.00" and "$90.00"
 When user pays bill of "15" from new account
-Then user verify account overview details having "$4910.00" and "$75.00"
+Then user verify account overview details having "$410.00" and "$75.00"
 When user search transaction of "15" for new account
 Then user verify content of api response from network

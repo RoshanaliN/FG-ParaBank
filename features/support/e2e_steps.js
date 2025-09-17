@@ -38,7 +38,7 @@ When('user log in with created username and {string}', async function (password)
 Then('user verify login successful', async function () {
     await this.poManager.getAccountOverviewPage().verifyPageLoaded()
     this.accountId0 = await this.poManager.getAccountOverviewPage().getAccountId(0)
-    await this.poManager.getAccountOverviewPage().verifyRowDetails(this.accountId0, '$5000.00')
+    await this.poManager.getAccountOverviewPage().verifyRowDetails(this.accountId0, '$500.00')
 });
 
 Then('user verify global navigation button', async function () {
